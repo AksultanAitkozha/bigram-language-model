@@ -26,12 +26,9 @@ probabilities = {bigram: frequency/total_bigrams for bigram, frequency in bigram
 df = pd.DataFrame.from_dict(probabilities, orient='index', columns=['Probability'])
 df.index.name = 'Bigram'
 styled_df = df.style.background_gradient()
-print(styled_df.to_string())
-
-df.plot(kind='bar', legend=None)
-plt.ylabel('Probability')
-plt.title('Bigram Probabilities')
-plt.show()
+# Save the styled dataframe as an HTML table
+with open('table.html', 'w') as file:
+    file.write(styled_df._repr_html_())
 
 bigram_probabilities = [(bigram, probability) for bigram, probability in probabilities.items()]
 #create a mapping between bigrams and indices to facilitate their use in the neural network
@@ -122,3 +119,8 @@ for epoch in range(epochs):
 #print the name
 print("Generated name:")
 print(generate(model))
+
+df.plot(kind='bar', legend=None)
+plt.ylabel('Probability')
+plt.title('Bigram Probabilities')
+plt.show()
